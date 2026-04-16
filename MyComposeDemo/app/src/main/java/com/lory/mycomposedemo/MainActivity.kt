@@ -4,13 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.lory.mycomposedemo.demos.*
 import com.lory.mycomposedemo.ui.theme.MyComposeDemoTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +17,48 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyComposeDemoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavHost()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyComposeDemoTheme {
-        Greeting("Android")
+fun AppNavHost() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = NavRoutes.HOME) {
+        composable(NavRoutes.HOME) {
+            HomeScreen(onNavigate = { navController.navigate(it) })
+        }
+        composable(NavRoutes.MODIFIER) {
+            ModifierDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.BASIC) {
+            BasicComponentsDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.LAYOUT) {
+            LayoutDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.LIST) {
+            ListDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.STATE) {
+            StateDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.RENDER) {
+            RenderDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.ANIMATION) {
+            AnimationDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.GESTURE) {
+            GestureDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.NAVIGATION) {
+            NavigationDemoScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoutes.THIRD_PARTY) {
+            ThirdPartyDemoScreen(onBack = { navController.popBackStack() })
+        }
     }
 }
